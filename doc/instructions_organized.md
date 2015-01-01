@@ -3,7 +3,7 @@ n stands for an 8-bit immediate value.
 nn stands for a 16-bit immediate value (remember that the Gameboy CPU is little-endian).
 
 A, B, C, D, E, H, and L are 8-Bit registers
-BC, DE, HL, and SP are 16-bit registers. BC, DE, and HL are comprised of two of the 8-bit registers as they are listed. Keep in mind that the most significant byte is stored in the first part and the less significant byte is stored in the second. So setting BC <= 0xEEFF is equivalent to setting B <= 0xEE and C <= 0xFF.
+BC, DE, HL, and SP are 16-bit registers. BC, DE, and HL are comprised of two of the 8-bit registers as they are listed. Keep in mind that the most significant byte is stored in the first part and the less significant byte is stored in the second. So setting BC <= 0xEEFF is equivalent to setting B <= 0xEE and C <= 0xFF. SP is not split up like this. SP is where the stack pointer is held.
 
 If a register is wrapped in parentheses that means to apply the operation to the address held in that register. If this is done with a 16-bit register the result is as you would expect. With an 8-bit register this applies to the address in the zero page, which is at the top of the address space.
 
@@ -12,6 +12,20 @@ So if C <= 0x10 and A <= 0x13, then LDH (C),A places 0x13 in memory at the addre
 Not evey instruction can be used indirectly like this, and some instructions only allow this indirect use with a subset of the registers you woud otherwise think they would be able to use.
 
 Durations are expressed in cycles on the main CPU clock. All instructions on a gameboy are done in multiples of four of these, but in order to eliminate any confusion they are listed as their complete clock values.
+
+The program counter is referred to as PC, but there is no way to actually use it in an instruction, and the only way to discover it is to CALL an instruction and read the value written to the stack.
+
+The flags register is an 8 bit register encoded as follows:
+
+```
+76543210
+ZNHC0000
+```
+- Z: Zero flag
+- N: Subtract flag
+- H: Half carry flag
+- C: Carry flag
+- 0: Not used. Should always be zero. I think that trying to pop nonzero bits into here might result in undefined behaviour...
 
 # Target/Condition Encodings
 The register targets and conditions are encoded into instructions as one, two, or three bit values. The various ways they are encoded are listed here.
@@ -44,6 +58,13 @@ Some instructions also replace HL and SP with HL+ and HL- which increment HL and
 - 01: DE
 - 10: HL+
 - 11: HL-
+
+Push and pop instructions also allow the A register and the flags register (F) to used. These are encoded as follows:
+
+- 00: BC
+- 01: DE
+- 10: HL
+- 11: AF
 
 ## Conditions
 
@@ -111,4 +132,40 @@ No 8-bit load instructions affect any flags.
 ### LDH A,(C)
 - Description: (C + 0xFF00) <= A
 - Encoding: 1111 0010 (0xF2)
+- Duration: 8
+
+## 16-Bit Loads
+
+### LD XX,nn
+- Valid registers for XX: BC, DE, HL, SP
+- Description: XX <= nn
+- Encoding: 00xx 0001
+- Duration: 12
+
+### PUSH XX
+- Valid registers for XX: BC, DE, HL, AF
+- Description: (SP) <= XX; SP <= SP - 2
+- Encoding:  11xx 0101
+- Duration: 16
+
+### POP XX
+- Valid registers for XX: BC, DE, HL, AF
+- Description: XX <= (SP); SP <= SP + 2
+- Encoding: 11xx 0001
+- Flags Affected: Z, N, H, C (they are set from the value popped into the F register only for POP AF)
+- Duration: 16
+
+### LD (nn),SP
+- Description: (nn) <= SP
+- Encoding: 0000 1000 (0x08)
+- Duration: 20
+
+### LD HL,SP+n
+- Description: HL <= SP + n
+- Encoding: 1111 1000 (0xF8)
+- Duration: 12
+
+### LD SP,HL
+- Description: SP <= HL
+- Encoding: 1111 1001 (0xF9)
 - Duration: 8
