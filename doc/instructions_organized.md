@@ -329,10 +329,10 @@ Decoding note: most of the instructions that have the option of including a carr
 - Encoding: 1011 1xxx
 - Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
-  - Z <= result == 0
+  - Z <= result == 0 (A == N)
   - N <= 1
   - H <= set if no borrow from bit 4
-  - C <= set if no borrow
+  - C <= set if no borrow (A < N)
 
 ### CP n
 - Description: A - n (set the flags for this result, but throw the result away)
