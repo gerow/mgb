@@ -176,130 +176,216 @@ No 8-bit load instructions affect any flags.
 
 Decoding note: most of the instructions that have the option of including a carry or not have a one bit difference between them, so they could be interpreted similarly.
 
-### INC X
-- Valid registers for X: B, C, D, E, H, L, (HL), A
-- Description: X <= X + 1
-- Encoding: 00xx x100
-- Duration:
-- Flags affected:
-
-### DEC X
-- Valid registers for X: B, C, D, E, H, L, (HL), A
-- Description: X <= X - 1
-- Encoding: 00xx x101
-- Duration:
-- Flags affected:
-
 ### ADD A,X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A + X
 - Encoding: 1000 0xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= set if carry from bit 3
+  - C <= set if carry from bit 7
 
 ### ADD A,n
 - Description: A <= A + n
 - Encoding: 1100 0110 (0xC6)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= set if carry from bit 3
+  - C <= set if carry from bit 7
 
 ### ADC A,X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= X + fC
 - Encoding: 1000 1xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= set if carry from bit 3
+  - C <= set if carry from bit 7
 
 ### ADC A,n
 - Description: A <= n + fC
 - Encoding:  1100 1110 (0xCE)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= set if carry from bit 3
+  - C <= set if carry from bit 7
 
 ### SUB X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A - X
 - Encoding: 1001 0xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow
 
 ### SUB n
 - Description: A <= A - n
 - Encoding:  1101 0110 (0xD6)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow
 
 ### SBC X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A - X - fC
 - Encoding: 1001 1xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow
+
+### SBC n
+- Description: A <= A - n - fC
+- Encoding 1101 1110 (0xDE)
+- Duration: 8
+- Flags affected:
+  - Z <= A == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow
 
 ### AND X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A & X
 - Encoding: 1010 1xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 1
+  - C <= 0
 
 ### AND n
 - Description: A <= A & n
 - Encoding: 1110 0110 (0xE6)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 1
+  - C <= 0
 
 ### OR X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A | X
 - Encoding: 1011 0xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 0
+  - C <= 0
 
 ### OR n
 - Description: A <= A | n
 - Encoding: 1111 0110 (0xF6)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 0
+  - C <= 0
 
 ### XOR X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A <= A ^ X
 - Encoding: 1010 1xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 0
+  - C <= 0
 
 ### XOR n
 - Description: A <= A ^ n
 - Encoding: 1110 1110 (0xEE)
-- Duration:
+- Duration: 8
 - Flags affected:
+  - Z <= A == 0
+  - N <= 0
+  - H <= 0
+  - C <= 0
 
 ### CP X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: A - X (set the flags for this result, but throw the result away)
 - Encoding: 1011 1xxx
-- Duration:
+- Duration: 4 unless X is (HL), in that case 8
 - Flags affected:
+  - Z <= result == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow
 
 ### CP n
 - Description: A - n (set the flags for this result, but throw the result away)
 - Encoding: 1111 1110 (0xFE)
-- Duration:
+- Duration: 8
 - Flags affected: 
+  - Z <= result == 0 (A == N)
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= set if no borrow (A < N)
+
+### INC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X + 1
+- Encoding: 00xx x100
+- Duration: 4 unless X is (HL), in that case 12
+- Flags affected:
+  - Z <= X == 0
+  - N <= 0
+  - H <= set if carry from bit 3
+  - C <= C (not affected)
+
+### DEC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X - 1
+- Encoding: 00xx x101
+- Duration: 4 unless X is (HL), in that case 12
+- Flags affected:
+  - Z <= X == 0
+  - N <= 1
+  - H <= set if no borrow from bit 4
+  - C <= C (not affected)
 
 ### DAA
 - Description: A <= convert_to_bcd(A)
   - For example, if A is 14 (decimal) it would be set to 0x14
 - Encoding: 0010 0111 (0x27)
-- Duration:
+- Duration: 4
 - Flags affected: 
+  - Z <= A == 0
+  - N <= N (not affected)
+  - H <= 0
+  - C <= set if the number converted from is greater than 99
 
 ### CPL
 - Description: A <= ~A
 - Encoding: 0010 1111 (0x2F)
-- Duration:
+- Duration: 4
 - Flags affected: 
+  - Z <= Z (not affected)
+  - N <= 1
+  - H <= 1
+  - C <= C (not affected)
 
 ## 16-Bit Arithmetic and Logical Operations
 
@@ -308,14 +394,22 @@ Decoding note: most of the instructions that have the option of including a carr
 ### SCF
 - Description: set carry flag
 - Encoding: 0011 0111 (0x37)
-- Duration:
+- Duration: 4
 - Flags affected: 
+  - Z <= Z (not affected)
+  - N <= 0
+  - H <= 0
+  - C <= 1
 
 ### CCF
 - Description: clear carry flag
 - Encoding: 0011 1111 (0x3F)
-- Duration:
+- Duration: 4
 - Flags affected: 
+  - Z <= Z (not affected)
+  - N <= 0
+  - H <= 0
+  - C <= ~C
 
 ## Program Flow
 
