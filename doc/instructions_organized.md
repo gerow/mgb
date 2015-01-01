@@ -63,7 +63,7 @@ No 8-bit load instructions affect any flags.
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: X <= n
 - Encoding: 00xx x110
-- Duration: 8
+- Duration: 8 unless X is (HL), in that case 12.
 
 ### LD X,Y
 - Valid registers for X or Y: B, C, D, E, H, L, (HL), A with the exception that X and Y cannot both be (HL)
