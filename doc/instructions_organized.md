@@ -117,12 +117,12 @@ No 8-bit load instructions affect any flags.
 - Duration: 16
 
 ### LDH (n),A
-- Description: (n) <= A
+- Description: (n + 0xFF00) <= A
 - Encoding: 1110 0000 (0xE0)
 - Duration: 12
 
 ### LDH A,(n)
-- Description: A <= (n)
+- Description: A <= (n + 0xFF00)
 - Encoding: 1111 0000 (0xF0)
 - Duration: 12
 
