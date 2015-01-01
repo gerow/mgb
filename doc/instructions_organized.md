@@ -27,6 +27,8 @@ ZNHC0000
 - C: Carry flag
 - 0: Not used. Should always be zero. I think that trying to pop nonzero bits into here might result in undefined behaviour...
 
+In cases where the letters on their own might be confusing the flags may be referred to as f${LETTER} like fZ, fN, fH, or fC.
+
 # Target/Condition Encodings
 The register targets and conditions are encoded into instructions as one, two, or three bit values. The various ways they are encoded are listed here.
 
@@ -152,7 +154,7 @@ No 8-bit load instructions affect any flags.
 - Valid registers for XX: BC, DE, HL, AF
 - Description: XX <= (SP); SP <= SP + 2
 - Encoding: 11xx 0001
-- Flags Affected: Z, N, H, C (they are set from the value popped into the F register only for POP AF)
+- Flags affected: Z, N, H, C (they are set from the value popped into the F register only for POP AF)
 - Duration: 16
 
 ### LD (nn),SP
@@ -169,3 +171,152 @@ No 8-bit load instructions affect any flags.
 - Description: SP <= HL
 - Encoding: 1111 1001 (0xF9)
 - Duration: 8
+
+## 8-Bit Arithmetic and Logical Operations
+
+Decoding note: most of the instructions that have the option of including a carry or not have a one bit difference between them, so they could be interpreted similarly.
+
+### INC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X + 1
+- Encoding: 00xx x100
+- Duration:
+- Flags affected:
+
+### DEC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X - 1
+- Encoding: 00xx x101
+- Duration:
+- Flags affected:
+
+### ADD A,X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A + X
+- Encoding: 1000 0xxx
+- Duration:
+- Flags affected:
+
+### ADD A,n
+- Description: A <= A + n
+- Encoding: 1100 0110 (0xC6)
+- Duration:
+- Flags affected:
+
+### ADC A,X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= X + fC
+- Encoding: 1000 1xxx
+- Duration:
+- Flags affected:
+
+### ADC A,n
+- Description: A <= n + fC
+- Encoding:  1100 1110 (0xCE)
+- Duration:
+- Flags affected:
+
+### SUB X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A - X
+- Encoding: 1001 0xxx
+- Duration:
+- Flags affected:
+
+### SUB n
+- Description: A <= A - n
+- Encoding:  1101 0110 (0xD6)
+- Duration:
+- Flags affected:
+
+### SBC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A - X - fC
+- Encoding: 1001 1xxx
+- Duration:
+- Flags affected:
+
+### AND X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A & X
+- Encoding: 1010 1xxx
+- Duration:
+- Flags affected:
+
+### AND n
+- Description: A <= A & n
+- Encoding: 1110 0110 (0xE6)
+- Duration:
+- Flags affected:
+
+### OR X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A | X
+- Encoding: 1011 0xxx
+- Duration:
+- Flags affected:
+
+### OR n
+- Description: A <= A | n
+- Encoding: 1111 0110 (0xF6)
+- Duration:
+- Flags affected:
+
+### XOR X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A <= A ^ X
+- Encoding: 1010 1xxx
+- Duration:
+- Flags affected:
+
+### XOR n
+- Description: A <= A ^ n
+- Encoding: 1110 1110 (0xEE)
+- Duration:
+- Flags affected:
+
+### CP X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: A - X (set the flags for this result, but throw the result away)
+- Encoding: 1011 1xxx
+- Duration:
+- Flags affected:
+
+### CP n
+- Description: A - n (set the flags for this result, but throw the result away)
+- Encoding: 1111 1110 (0xFE)
+- Duration:
+- Flags affected: 
+
+### DAA
+- Description: A <= convert_to_bcd(A)
+  - For example, if A is 14 (decimal) it would be set to 0x14
+- Encoding: 0010 0111 (0x27)
+- Duration:
+- Flags affected: 
+
+### CPL
+- Description: A <= ~A
+- Encoding: 0010 1111 (0x2F)
+- Duration:
+- Flags affected: 
+
+## 16-Bit Arithmetic and Logical Operations
+
+## Misc Arithmetic Operations
+
+### SCF
+- Description: set carry flag
+- Encoding: 0011 0111 (0x37)
+- Duration:
+- Flags affected: 
+
+### CCF
+- Description: clear carry flag
+- Encoding: 0011 1111 (0x3F)
+- Duration:
+- Flags affected: 
+
+## Program Flow
+
+## Misc
