@@ -438,7 +438,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - C <= 1
 
 ### CCF
-- Description: clear carry flag
+- Description: complement carry flag
 - Encoding: 0011 1111 (0x3F)
 - Duration: 4
 - Flags affected: 
