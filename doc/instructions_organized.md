@@ -146,7 +146,7 @@ No 8-bit load instructions affect any flags.
 
 ### PUSH XX
 - Valid registers for XX: BC, DE, HL, AF
-- Description: (SP) <= XX; SP <= SP - 2
+- Description: SP <= SP - 2; (SP) <= XX
 - Encoding:  11xx 0101
 - Duration: 16
 
