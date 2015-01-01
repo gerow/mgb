@@ -9,7 +9,9 @@ If a register is wrapped in parentheses that means to apply the operation to the
 
 So if C <= 0x10 and A <= 0x13, then LDH (C),A places 0x13 in memory at the address 0xFF10.
 
-Not ever instruction can be used indirectly like this, and some instructions only allow this indirect use with a subset of the registers you woud otherwise think they would be able to use.
+Not evey instruction can be used indirectly like this, and some instructions only allow this indirect use with a subset of the registers you woud otherwise think they would be able to use.
+
+Durations are expressed in cycles on the main CPU clock. All instructions on a gameboy are done in multiples of four of these, but in order to eliminate any confusion they are listed as their complete clock values.
 
 # Target/Condition Encodings
 The register targets and conditions are encoded into instructions as one, two, or three bit values. The various ways they are encoded are listed here.
@@ -58,55 +60,55 @@ These are represented as cc in instruction listings.
 No 8-bit load instructions affect any flags.
 
 ### LD X,n
-Valid registers for X: B, C, D, E, H, L, (HL), A
-Description: X <= n
-Encoding: 00xx x110
-Duration: 8
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= n
+- Encoding: 00xx x110
+- Duration: 8
 
 ### LD X,Y
-Valid registers for X or Y: B, C, D, E, H, L, (HL), A with the exception that X and Y cannot both be (HL)
-Description: X <= Y
-Encoding: 01xx xyyy
-Duration: 4 unless one of the arguments is (HL), in that case 8.
+- Valid registers for X or Y: B, C, D, E, H, L, (HL), A with the exception that X and Y cannot both be (HL)
+- Description: X <= Y
+- Encoding: 01xx xyyy
+- Duration: 4 unless one of the arguments is (HL), in that case 8.
 
 ### LD (XX),A
-Valid registers for XX: BC, DE, HL+, and HL-
-Description: (XX) <= A
-Encoding: 00xx 0010
-Duration: 8
+- Valid registers for XX: BC, DE, HL+, and HL-
+- Description: (XX) <= A
+- Encoding: 00xx 0010
+- Duration: 8
 
 ### LD A,(XX)
-Valid registers for XX: BC, DE, HL+, and HL-
-Description: A <= (XX)
-Encoding: 00xx 1010
-Duration: 8
+- Valid registers for XX: BC, DE, HL+, and HL-
+- Description: A <= (XX)
+- Encoding: 00xx 1010
+- Duration: 8
 
 ### LD (nn),A
-Description: (nn) <= A
-Signature: 1110 1010 (0xEA)
-Duration: 16
+- Description: (nn) <= A
+- Signature: 1110 1010 (0xEA)
+- Duration: 16
 
 ### LD A,(nn)
-Description: A <= (nn)
-Signature: 1111 1010 (0xFA)
-Duration: 16
+- Description: A <= (nn)
+- Signature: 1111 1010 (0xFA)
+- Duration: 16
 
 ### LDH (n),A
-Description: (n) <= A
-Encoding: 1110 0000 (0xE0)
-Duration: 12
+- Description: (n) <= A
+- Encoding: 1110 0000 (0xE0)
+- Duration: 12
 
 ### LDH A,(n)
-Description: A <= (n)
-Encoding: 1111 0000 (0xF0)
-Duration: 12
+- Description: A <= (n)
+- Encoding: 1111 0000 (0xF0)
+- Duration: 12
 
 ### LDH (C),A
-Description: A <= (C + 0xFF00)
-Encoding: 1110 0010 (0xE2)
-Duration: 8
+- Description: A <= (C + 0xFF00)
+- Encoding: 1110 0010 (0xE2)
+- Duration: 8
 
 ### LDH A,(C)
-Description: (C + 0xFF00) <= A
-Encoding: 1111 0010 (0xF2)
-Duration: 8
+- Description: (C + 0xFF00) <= A
+- Encoding: 1111 0010 (0xF2)
+- Duration: 8
