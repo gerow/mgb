@@ -389,6 +389,42 @@ Decoding note: most of the instructions that have the option of including a carr
 
 ## 16-Bit Arithmetic and Logical Operations
 
+### INC XX
+- Valid registers for XX: BC, DE, HL, SP
+- Description: XX <= XX + 1
+- Encoding: 00xx 0011
+- Duration: 8
+- Flags affected: no flags affected
+
+### DEC XX
+- Valid registers for XX: BC, DE, HL, SP
+- Description: XX <= XX - 1
+- Encoding: 00xx 1011
+- Duration: 8
+- Flags affected: no flags affected
+
+### ADD HL,XX
+- Valid registers for XX: BC, DE, HL, SP
+- Description: HL <= HL + XX
+- Encoding: 00xx 1001
+- Duration: 8
+- Flags affected:
+  - Z <= Z (not affected)
+  - N <= 0
+  - H <= set if carry from bit 11
+  - C <= set if carry from bit 15
+
+### ADD SP,n
+- Description: SP <= SP + n
+- Encoding: 1110 1000 (0xE8)
+- Duration: 16
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= set if carry from bit 11
+  - C <= set if carry from bit 15
+- Note: the n is a one byte immediate value, _not_ a two byte value.
+
 ## Misc Arithmetic Operations
 
 ### SCF
