@@ -13,7 +13,7 @@ Not evey instruction can be used indirectly like this, and some instructions onl
 
 Durations are expressed in cycles on the main CPU clock. All instructions on a gameboy are done in multiples of four of these, but in order to eliminate any confusion they are listed as their complete clock values.
 
-The program counter is referred to as PC, but there is no way to actually use it in an instruction, and the only way to discover it is to CALL an instruction and read the value written to the stack.
+The program counter is referred to as PC, but there is no way to actually use it in an instruction, and the only way to discover it is to CALL an instruction and read the value written to the stack. In the descriptions for the instructions it is assumed the PC is pointing to the _next_ instruction while carrying it out. This means that (SP) <= PC effectively describes setting a return address in a CALL instruction.
 
 The flags register is an 8 bit register encoded as follows:
 
@@ -448,5 +448,82 @@ Decoding note: most of the instructions that have the option of including a carr
   - C <= ~C
 
 ## Program Flow
+
+### JP nn
+- Description: PC <= nn
+- Encoding: 1100 0011 (0xC3)
+- Duration: 16
+
+### JP CC,nn
+- Valid conditions for CC: NZ, Z, NC, C
+- Description: if CC then PC <= nn
+- Encoding: 110c c011
+- Duration: if CC then 16 else 12
+
+### JP (HL)
+- Description: PC <= (HL)
+- Encoding: 1110 1001 (0xE9)
+- Duration: 4
+
+### JR n
+- Description: PC <= PC + sign_extend_8bit_to_16bit(n)
+- Encoding: 0001 1000 (0x18)
+- Duration: 12
+
+### JR CC,n
+- Valid conditions for CC: NZ, Z, NC, C
+- Description: if CC then PC <= PC + sign_extend_8bit_to_16_bit(n)
+- Encoding: 001c c000
+- Duration: if CC then 12 else 8
+
+### CALL nn
+- Description: SP <= SP - 2; (SP) <= PC; PC <= nn
+- Encoding: 1100 1101 (0xCD)
+- Duration: 24
+
+### CALL CC,nn
+- Valid conditions for CC: NZ, Z, NC, C
+- Description: if CC then SP <= SP - 2; (SP) <= PC; PC <= nn
+- Encoding: 110c c100
+- Duration: if CC then 24 else 12
+
+### RET
+- Description: PC <= (SP); SP <= SP + 2
+- Encoding: 1100 1001 (0xC9)
+- Duration: 16
+
+### RET CC
+- Valid conditions for CC: NZ, Z, NC, C
+- Description: if CC then PC <= (SP); SP <= SP + 2
+- Encoding: 110c c000
+- Duration: if CC then 24 else 8
+
+### RETI
+- Description: PC <= (SP); SP <= SP + 2; enable_interrupts()
+- Encoding: 1100 1001 (0xC9)
+- Duration: 16
+
+### RST d
+- Valid numbers for d: $00, $08, $10, $18, $20, $28, $30, $38. These are encoded in the instruction as follows:
+  - 000: $00
+  - 001: $08
+  - 010: $10
+  - 011: $18
+  - 100: $20
+  - 101: $28
+  - 110: $30
+  - 111: $38
+- Description: SP <= SP - 2; (SP) <= PC; PC <= 0x0000 + d
+- Encoding: 11dd d111
+- Duration: 16
+- Note: The encoded value is effectively multiplied by 8. The following table shows the result of each encoded value:
+  - 000: PC <= 0x0000
+  - 001: PC <= 0x0008
+  - 010: PC <= 0x0010
+  - 011: PC <= 0x0018
+  - 100: PC <= 0x0020
+  - 101: PC <= 0x0028
+  - 110: PC <= 0x0030
+  - 111: PC <= 0x0038
 
 ## Misc
