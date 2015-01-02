@@ -526,4 +526,91 @@ Decoding note: most of the instructions that have the option of including a carr
   - 110: PC <= 0x0030
   - 111: PC <= 0x0038
 
+## Rotates
+
+### RLCA
+- Description: rotate_left(A)
+- Encoding: 0000 0111 (0x07)
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= most_significant_bit(A) (before the rotate)
+- Note: this effectively rotates A left and places whatever value gets rotated from bit 7 to 0 into the carry flag as well.
+```
+      +-----------+
+fC <--+--A[7:0]<--+
+```
+
+### RRCA
+- Description: rotate_right(A)
+- Encoding: 0000 1111 (0x0F)
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(A) (before the rotate)
+- Note: this effectively rotates A right and places whatever value gets rotated from bit 0 to 7 into the carry flag as well.
+```
++-----------+
++-->A[7:0]--+--> fC
+```
+
+### RLA
+- Description: rotate_left_through_carry(A)
+- Encoding: 0001 0111 (0x17)
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= most_significant_bit(A) (before the rotate)
+- Note: this effectively rotates A left through the carry flag. This ends up placing bit 7 into the carry flag and the carry flag into bit 0.
+```
++----------------+
++--fC<--A[7:0]<--+
+```
+
+### RRA
+- Description: rotate_right_through_carry(A)
+- Encoding: 0001 1111 (0x1F)
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(A) (before the rotate)
+- Note: this effectively rotates A right through the carry flag. This ends up placing bit 0 into the carry flag and the carry flag into bit 7.
+```
++----------------+
++-->A[7:0]-->fC--+
+```
+
 ## Misc
+
+### NOP
+- Description: no operation
+- Encoding: 0000 0000 (0x00)
+- Duration: 4
+
+### STOP
+- Description: halt the CPU and LCD display until a button is pressed
+- Encoding: 0001 0000 (0x10)
+- Duration: 4
+
+### HALT
+- Description: power down the CPU until an interrupt occurs
+- Encoding: 0111 0110 (0x76)
+- Duration: 4
+
+### DI
+- Description: disable_interrupts()
+- Encoding: 1111 0011 (0xF3)
+- Duration: 4
+
+### EI
+- Description: enable_interrupts()
+- Encoding: 1111 1011 (0xFB)
+- Duration: 4
