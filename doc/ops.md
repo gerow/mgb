@@ -703,21 +703,36 @@ fC<--X[7:0]<--0
   - This means something like 0xEF would turn into 0xFE
 - Encoding: 0xCB 0011 0xxx
 - Duration: 8 unless X is (HL), in that case 16
+- Flags affected:
+  - Z <= X == 0
+  - N <= 0
+  - H <= 0
+  - C <= 0
 
 ### BIT b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: only affects flags
 - Duration: 8 unless X is (HL), in that case 16
-
-### RES b,X
-- Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
-- Valid registers for X: B, C, D, E, H, L, (HL), A
-- Duration: 8 unless X is (HL), in that case 16
+- Flags affected:
+  - Z <= X & [1 << b] == 0 (set if the bit checked is zero)
+  - N <= 0
+  - H <= 1
+  - C <= C (not affected)
 
 ### SET b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X | [1 << b] (set bit b in X)
 - Duration: 8 unless X is (HL), in that case 16
+- Flags affected: none
+
+### RES b,X
+- Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X & ~[1 << b] (reset bit b in X)
+- Duration: 8 unless X is (HL), in that case 16
+- Flags affected: none
 
 ## Misc
 
