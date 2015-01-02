@@ -715,7 +715,7 @@ fC<--X[7:0]<--0
 - Description: only affects flags
 - Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
-  - Z <= X & [1 << b] == 0 (set if the bit checked is zero)
+  - Z <= X & \[1 << b\] == 0 (set if the bit checked is zero)
   - N <= 0
   - H <= 1
   - C <= C (not affected)
@@ -723,14 +723,14 @@ fC<--X[7:0]<--0
 ### SET b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
-- Description: X <= X | [1 << b] (set bit b in X)
+- Description: X <= X | \[1 << b\] (set bit b in X)
 - Duration: 8 unless X is (HL), in that case 16
 - Flags affected: none
 
 ### RES b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
-- Description: X <= X & ~[1 << b] (reset bit b in X)
+- Description: X <= X & ~\[1 << b\] (reset bit b in X)
 - Duration: 8 unless X is (HL), in that case 16
 - Flags affected: none
 
