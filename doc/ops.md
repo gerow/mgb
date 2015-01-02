@@ -652,6 +652,65 @@ fC <--+--X[7:0]<--+
 +-->X[7:0]-->fC--+
 ```
 
+### SLA X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X << 1
+- Encoding:  0xCB 0010 0xxx
+- Duration: 8
+- Flags affected:
+  - Z <= X == 0
+  - N <= 0
+  - H <= 0
+  - C <= most_significant_bit(X) (before rotate)
+```
+fC<--X[7:0]<--0
+```
+
+### SRA X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X >> 1 (the shift is arithmetic, though, so the sign bit sticks)
+- Encoding:  0xCB 0010 1xxx
+- Duration: 8
+- Flags affected:
+  - Z <= X == 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(X) (before rotate)
+```
++---------+
++-->X[7]--+-->X[6:0]-->fC
+```
+
+### SRL X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= X >> 1 (the shift is logical, so zeroes come in on the left)
+- Encoding:  0xCB 0011 1xxx
+- Duration: 8
+- Flags affected:
+  - Z <= X == 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(X) (before rotate)
+```
+0-->X[7:0]-->fC
+```
+
+## Bit Operations
+
+### SWAP X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+
+### BIT b,X
+- Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+
+### RES b,X
+- Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+
+### SET b,X
+- Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
+- Valid registers for X: B, C, D, E, H, L, (HL), A
 
 ## Misc
 
