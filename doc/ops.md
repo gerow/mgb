@@ -592,9 +592,9 @@ fC <--+--A[7:0]<--+
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: rotate_left(X)
 - Encoding: 0xCB 0000 0xxx
-- Duration: 4
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
-  - Z <= 0
+  - Z <= X == 0
   - N <= 0
   - H <= 0
   - C <= most_significant_bit(X) (before the rotate)
@@ -608,9 +608,9 @@ fC <--+--X[7:0]<--+
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: rotate_right(X)
 - Encoding: 0xCB 0000 1xxx
-- Duration: 4
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
-  - Z <= 0
+  - Z <= X == 0
   - N <= 0
   - H <= 0
   - C <= least_significant_bit(X) (before the rotate)
@@ -624,9 +624,9 @@ fC <--+--X[7:0]<--+
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: rotate_left_through_carry(X)
 - Encoding: 0xCB 0001 0xxx (0x17)
-- Duration: 4
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
-  - Z <= 0
+  - Z <= X == 0
   - N <= 0
   - H <= 0
   - C <= most_significant_bit(X) (before the rotate)
@@ -640,9 +640,9 @@ fC <--+--X[7:0]<--+
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: rotate_right_through_carry(X)
 - Encoding: 0xCB 0001 1xxx
-- Duration: 4
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
-  - Z <= 0
+  - Z <= X == 0
   - N <= 0
   - H <= 0
   - C <= least_significant_bit(X) (before the rotate)
@@ -656,7 +656,7 @@ fC <--+--X[7:0]<--+
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: X <= X << 1
 - Encoding:  0xCB 0010 0xxx
-- Duration: 8
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
   - Z <= X == 0
   - N <= 0
@@ -670,7 +670,7 @@ fC<--X[7:0]<--0
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: X <= X >> 1 (the shift is arithmetic, though, so the sign bit sticks)
 - Encoding:  0xCB 0010 1xxx
-- Duration: 8
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
   - Z <= X == 0
   - N <= 0
@@ -685,7 +685,7 @@ fC<--X[7:0]<--0
 - Valid registers for X: B, C, D, E, H, L, (HL), A
 - Description: X <= X >> 1 (the shift is logical, so zeroes come in on the left)
 - Encoding:  0xCB 0011 1xxx
-- Duration: 8
+- Duration: 8 unless X is (HL), in that case 16
 - Flags affected:
   - Z <= X == 0
   - N <= 0
@@ -699,18 +699,25 @@ fC<--X[7:0]<--0
 
 ### SWAP X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: X <= swap_nibbles(X)
+  - This means something like 0xEF would turn into 0xFE
+- Encoding: 0xCB 0011 0xxx
+- Duration: 8 unless X is (HL), in that case 16
 
 ### BIT b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Duration: 8 unless X is (HL), in that case 16
 
 ### RES b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Duration: 8 unless X is (HL), in that case 16
 
 ### SET b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
 - Valid registers for X: B, C, D, E, H, L, (HL), A
+- Duration: 8 unless X is (HL), in that case 16
 
 ## Misc
 
