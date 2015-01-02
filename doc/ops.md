@@ -87,54 +87,64 @@ No 8-bit load instructions affect any flags.
 - Description: X <= n
 - Encoding: 00xx x110
 - Duration: 8 unless X is (HL), in that case 12.
+- Length: 2
 
 ### LD X,Y
 - Valid registers for X or Y: B, C, D, E, H, L, (HL), A with the exception that X and Y cannot both be (HL)
 - Description: X <= Y
 - Encoding: 01xx xyyy
 - Duration: 4 unless one of the arguments is (HL), in that case 8.
+- Length: 1
 
 ### LD (XX),A
 - Valid registers for XX: BC, DE, HL+, and HL-
 - Description: (XX) <= A
 - Encoding: 00xx 0010
 - Duration: 8
+- Length: 1
 
 ### LD A,(XX)
 - Valid registers for XX: BC, DE, HL+, and HL-
 - Description: A <= (XX)
 - Encoding: 00xx 1010
 - Duration: 8
+- Length: 1
 
 ### LD (nn),A
 - Description: (nn) <= A
 - Signature: 1110 1010 (0xEA)
 - Duration: 16
+- Length: 3
 
 ### LD A,(nn)
 - Description: A <= (nn)
 - Signature: 1111 1010 (0xFA)
 - Duration: 16
+- Length: 3
 
 ### LDH (n),A
 - Description: (n + 0xFF00) <= A
 - Encoding: 1110 0000 (0xE0)
 - Duration: 12
+- Length: 2
 
 ### LDH A,(n)
 - Description: A <= (n + 0xFF00)
 - Encoding: 1111 0000 (0xF0)
 - Duration: 12
+- Length: 2
 
 ### LDH (C),A
 - Description: A <= (C + 0xFF00)
 - Encoding: 1110 0010 (0xE2)
 - Duration: 8
+- Length: 1
 
 ### LDH A,(C)
 - Description: (C + 0xFF00) <= A
 - Encoding: 1111 0010 (0xF2)
 - Duration: 8
+- Length: 1
 
 ## 16-Bit Loads
 
@@ -143,12 +153,14 @@ No 8-bit load instructions affect any flags.
 - Description: XX <= nn
 - Encoding: 00xx 0001
 - Duration: 12
+- Length: 3
 
 ### PUSH XX
 - Valid registers for XX: BC, DE, HL, AF
 - Description: SP <= SP - 2; (SP) <= XX
 - Encoding:  11xx 0101
 - Duration: 16
+- Length: 1
 
 ### POP XX
 - Valid registers for XX: BC, DE, HL, AF
@@ -156,21 +168,25 @@ No 8-bit load instructions affect any flags.
 - Encoding: 11xx 0001
 - Flags affected: Z, N, H, C (they are set from the value popped into the F register only for POP AF)
 - Duration: 16
+- Length: 1
 
 ### LD (nn),SP
 - Description: (nn) <= SP
 - Encoding: 0000 1000 (0x08)
 - Duration: 20
+- Length: 3
 
 ### LD HL,SP+n
 - Description: HL <= SP + n
 - Encoding: 1111 1000 (0xF8)
 - Duration: 12
+- Length: 2
 
 ### LD SP,HL
 - Description: SP <= HL
 - Encoding: 1111 1001 (0xF9)
 - Duration: 8
+- Length: 1
 
 ## 8-Bit Arithmetic and Logical Operations
 
@@ -186,6 +202,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 3
   - C <= set if carry from bit 7
+- Length: 1
 
 ### ADD A,n
 - Description: A <= A + n
@@ -196,6 +213,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 3
   - C <= set if carry from bit 7
+- Length: 2
 
 ### ADC A,X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -207,6 +225,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 3
   - C <= set if carry from bit 7
+- Length: 1
 
 ### ADC A,n
 - Description: A <= n + fC
@@ -217,6 +236,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 3
   - C <= set if carry from bit 7
+- Length: 2
 
 ### SUB X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -228,6 +248,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow
+- Length: 1
 
 ### SUB n
 - Description: A <= A - n
@@ -238,6 +259,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow
+- Length: 2
 
 ### SBC X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -249,6 +271,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow
+- Length: 1
 
 ### SBC n
 - Description: A <= A - n - fC
@@ -259,6 +282,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow
+- Length: 2
 
 ### AND X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -270,6 +294,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 1
   - C <= 0
+- Length: 1
 
 ### AND n
 - Description: A <= A & n
@@ -280,6 +305,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 1
   - C <= 0
+- Length: 2
 
 ### OR X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -291,6 +317,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= 0
+- Length: 1
 
 ### OR n
 - Description: A <= A | n
@@ -301,6 +328,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= 0
+- Length: 2
 
 ### XOR X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -312,6 +340,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= 0
+- Length: 1
 
 ### XOR n
 - Description: A <= A ^ n
@@ -322,6 +351,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= 0
+- Length: 2
 
 ### CP X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -333,6 +363,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow (A < N)
+- Length: 1
 
 ### CP n
 - Description: A - n (set the flags for this result, but throw the result away)
@@ -343,6 +374,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= set if no borrow (A < N)
+- Length: 2
 
 ### INC X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -354,6 +386,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 3
   - C <= C (not affected)
+- Length: 1
 
 ### DEC X
 - Valid registers for X: B, C, D, E, H, L, (HL), A
@@ -365,6 +398,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= set if no borrow from bit 4
   - C <= C (not affected)
+- Length: 1
 
 ### DAA
 - Description: A <= convert_to_bcd(A)
@@ -376,6 +410,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= N (not affected)
   - H <= 0
   - C <= set if the number converted from is greater than 99
+- Length: 1
 
 ### CPL
 - Description: A <= ~A
@@ -386,6 +421,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 1
   - H <= 1
   - C <= C (not affected)
+- Length: 1
 
 ## 16-Bit Arithmetic and Logical Operations
 
@@ -395,6 +431,7 @@ Decoding note: most of the instructions that have the option of including a carr
 - Encoding: 00xx 0011
 - Duration: 8
 - Flags affected: no flags affected
+- Length: 1
 
 ### DEC XX
 - Valid registers for XX: BC, DE, HL, SP
@@ -402,6 +439,7 @@ Decoding note: most of the instructions that have the option of including a carr
 - Encoding: 00xx 1011
 - Duration: 8
 - Flags affected: no flags affected
+- Length: 1
 
 ### ADD HL,XX
 - Valid registers for XX: BC, DE, HL, SP
@@ -413,6 +451,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= set if carry from bit 11
   - C <= set if carry from bit 15
+- Length: 1
 
 ### ADD SP,n
 - Description: SP <= SP + n
@@ -424,6 +463,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - H <= set if carry from bit 11
   - C <= set if carry from bit 15
 - Note: the n is a one byte immediate value, _not_ a two byte value.
+- Length: 2
 
 ## Misc Arithmetic Operations
 
@@ -436,6 +476,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= 1
+- Length: 1
 
 ### CCF
 - Description: complement carry flag
@@ -446,6 +487,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - N <= 0
   - H <= 0
   - C <= ~C
+- Length: 1
 
 ## Program Flow
 
@@ -453,55 +495,65 @@ Decoding note: most of the instructions that have the option of including a carr
 - Description: PC <= nn
 - Encoding: 1100 0011 (0xC3)
 - Duration: 16
+- Length: 3
 
 ### JP CC,nn
 - Valid conditions for CC: NZ, Z, NC, C
 - Description: if CC then PC <= nn
 - Encoding: 110c c011
 - Duration: if CC then 16 else 12
+- Length: 3
 
 ### JP (HL)
 - Description: PC <= (HL)
 - Encoding: 1110 1001 (0xE9)
 - Duration: 4
+- Length: 1
 
 ### JR n
 - Description: PC <= PC + sign_extend_8bit_to_16bit(n)
 - Encoding: 0001 1000 (0x18)
 - Duration: 12
+- Length: 2
 
 ### JR CC,n
 - Valid conditions for CC: NZ, Z, NC, C
 - Description: if CC then PC <= PC + sign_extend_8bit_to_16_bit(n)
 - Encoding: 001c c000
 - Duration: if CC then 12 else 8
+- Length: 2
 
 ### CALL nn
 - Description: SP <= SP - 2; (SP) <= PC; PC <= nn
 - Encoding: 1100 1101 (0xCD)
 - Duration: 24
+- Length: 3
 
 ### CALL CC,nn
 - Valid conditions for CC: NZ, Z, NC, C
 - Description: if CC then SP <= SP - 2; (SP) <= PC; PC <= nn
 - Encoding: 110c c100
 - Duration: if CC then 24 else 12
+- Length: 3
 
 ### RET
 - Description: PC <= (SP); SP <= SP + 2
 - Encoding: 1100 1001 (0xC9)
 - Duration: 16
+- Length: 1
 
 ### RET CC
 - Valid conditions for CC: NZ, Z, NC, C
 - Description: if CC then PC <= (SP); SP <= SP + 2
 - Encoding: 110c c000
 - Duration: if CC then 24 else 8
+- Length: 1
 
 ### RETI
 - Description: PC <= (SP); SP <= SP + 2; enable_interrupts()
 - Encoding: 1100 1001 (0xC9)
 - Duration: 16
+- Length: 1
 
 ### RST d
 - Valid numbers for d: $00, $08, $10, $18, $20, $28, $30, $38. These are encoded in the instruction as follows:
@@ -525,8 +577,9 @@ Decoding note: most of the instructions that have the option of including a carr
   - 101: PC <= 0x0028
   - 110: PC <= 0x0030
   - 111: PC <= 0x0038
+- Length: 1
 
-## Rotates
+## Rotates and Shifts
 
 ### RLCA
 - Description: rotate_left(A)
@@ -538,6 +591,7 @@ Decoding note: most of the instructions that have the option of including a carr
   - H <= 0
   - C <= most_significant_bit(A) (before the rotate)
 - Note: this effectively rotates A left and places whatever value gets rotated from bit 7 to 0 into the carry flag as well.
+- Length: 1
 ```
       +-----------+
 fC <--+--A[7:0]<--+
@@ -553,6 +607,7 @@ fC <--+--A[7:0]<--+
   - H <= 0
   - C <= least_significant_bit(A) (before the rotate)
 - Note: this effectively rotates A right and places whatever value gets rotated from bit 0 to 7 into the carry flag as well.
+- Length: 1
 ```
 +-----------+
 +-->A[7:0]--+--> fC
@@ -568,6 +623,7 @@ fC <--+--A[7:0]<--+
   - H <= 0
   - C <= most_significant_bit(A) (before the rotate)
 - Note: this effectively rotates A left through the carry flag. This ends up placing bit 7 into the carry flag and the carry flag into bit 0.
+- Length: 1
 ```
 +----------------+
 +--fC<--A[7:0]<--+
@@ -583,6 +639,7 @@ fC <--+--A[7:0]<--+
   - H <= 0
   - C <= least_significant_bit(A) (before the rotate)
 - Note: this effectively rotates A right through the carry flag. This ends up placing bit 0 into the carry flag and the carry flag into bit 7.
+- Length: 1
 ```
 +----------------+
 +-->A[7:0]-->fC--+
@@ -599,6 +656,7 @@ fC <--+--A[7:0]<--+
   - H <= 0
   - C <= most_significant_bit(X) (before the rotate)
 - Note: this effectively rotates X left and places whatever value gets rotated from bit 7 to 0 into the carry flag as well.
+- Length: 2
 ```
       +-----------+
 fC <--+--X[7:0]<--+
@@ -615,6 +673,7 @@ fC <--+--X[7:0]<--+
   - H <= 0
   - C <= least_significant_bit(X) (before the rotate)
 - Note: this effectively rotates X right and places whatever value gets rotated from bit 0 to 7 into the carry flag as well.
+- Length: 2
 ```
 +-----------+
 +-->X[7:0]--+--> fC
@@ -631,6 +690,7 @@ fC <--+--X[7:0]<--+
   - H <= 0
   - C <= most_significant_bit(X) (before the rotate)
 - Note: this effectively rotates X left through the carry flag. This ends up placing bit 7 into the carry flag and the carry flag into bit 0.
+- Length: 2
 ```
 +----------------+
 +--fC<--X[7:0]<--+
@@ -647,6 +707,7 @@ fC <--+--X[7:0]<--+
   - H <= 0
   - C <= least_significant_bit(X) (before the rotate)
 - Note: this effectively rotates X right through the carry flag. This ends up placing bit 0 into the carry flag and the carry flag into bit 7.
+- Length: 2
 ```
 +----------------+
 +-->X[7:0]-->fC--+
@@ -662,6 +723,7 @@ fC <--+--X[7:0]<--+
   - N <= 0
   - H <= 0
   - C <= most_significant_bit(X) (before rotate)
+- Length: 2
 ```
 fC<--X[7:0]<--0
 ```
@@ -676,6 +738,7 @@ fC<--X[7:0]<--0
   - N <= 0
   - H <= 0
   - C <= least_significant_bit(X) (before rotate)
+- Length: 2
 ```
 +---------+
 +-->X[7]--+-->X[6:0]-->fC
@@ -691,6 +754,7 @@ fC<--X[7:0]<--0
   - N <= 0
   - H <= 0
   - C <= least_significant_bit(X) (before rotate)
+- Length: 2
 ```
 0-->X[7:0]-->fC
 ```
@@ -708,6 +772,7 @@ fC<--X[7:0]<--0
   - N <= 0
   - H <= 0
   - C <= 0
+- Length: 2
 
 ### BIT b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
@@ -719,6 +784,7 @@ fC<--X[7:0]<--0
   - N <= 0
   - H <= 1
   - C <= C (not affected)
+- Length: 2
 
 ### SET b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
@@ -726,6 +792,7 @@ fC<--X[7:0]<--0
 - Description: X <= X | \[1 << b\] (set bit b in X)
 - Duration: 8 unless X is (HL), in that case 16
 - Flags affected: none
+- Length: 2
 
 ### RES b,X
 - Valid values for b: 0, 1, 2, 3, 4, 5, 6, 7
@@ -733,6 +800,7 @@ fC<--X[7:0]<--0
 - Description: X <= X & ~\[1 << b\] (reset bit b in X)
 - Duration: 8 unless X is (HL), in that case 16
 - Flags affected: none
+- Length: 2
 
 ## Misc
 
@@ -740,23 +808,28 @@ fC<--X[7:0]<--0
 - Description: no operation
 - Encoding: 0000 0000 (0x00)
 - Duration: 4
+- Length: 1
 
 ### STOP
 - Description: halt the CPU and LCD display until a button is pressed
 - Encoding: 0001 0000 (0x10)
 - Duration: 4
+- Length: 1
 
 ### HALT
 - Description: power down the CPU until an interrupt occurs
 - Encoding: 0111 0110 (0x76)
 - Duration: 4
+- Length: 1
 
 ### DI
 - Description: disable_interrupts()
 - Encoding: 1111 0011 (0xF3)
 - Duration: 4
+- Length: 1
 
 ### EI
 - Description: enable_interrupts()
 - Encoding: 1111 1011 (0xFB)
 - Duration: 4
+- Length: 1
