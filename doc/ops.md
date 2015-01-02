@@ -588,6 +588,71 @@ fC <--+--A[7:0]<--+
 +-->A[7:0]-->fC--+
 ```
 
+### RLC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: rotate_left(X)
+- Encoding: 0xCB 0000 0xxx
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= most_significant_bit(X) (before the rotate)
+- Note: this effectively rotates X left and places whatever value gets rotated from bit 7 to 0 into the carry flag as well.
+```
+      +-----------+
+fC <--+--X[7:0]<--+
+```
+
+### RRC X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: rotate_right(X)
+- Encoding: 0xCB 0000 1xxx
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(X) (before the rotate)
+- Note: this effectively rotates X right and places whatever value gets rotated from bit 0 to 7 into the carry flag as well.
+```
++-----------+
++-->X[7:0]--+--> fC
+```
+
+### RL X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: rotate_left_through_carry(X)
+- Encoding: 0xCB 0001 0xxx (0x17)
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= most_significant_bit(X) (before the rotate)
+- Note: this effectively rotates X left through the carry flag. This ends up placing bit 7 into the carry flag and the carry flag into bit 0.
+```
++----------------+
++--fC<--X[7:0]<--+
+```
+
+### RR X
+- Valid registers for X: B, C, D, E, H, L, (HL), A
+- Description: rotate_right_through_carry(X)
+- Encoding: 0xCB 0001 1xxx
+- Duration: 4
+- Flags affected:
+  - Z <= 0
+  - N <= 0
+  - H <= 0
+  - C <= least_significant_bit(X) (before the rotate)
+- Note: this effectively rotates X right through the carry flag. This ends up placing bit 0 into the carry flag and the carry flag into bit 7.
+```
++----------------+
++-->X[7:0]-->fC--+
+```
+
+
 ## Misc
 
 ### NOP
