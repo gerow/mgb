@@ -6,7 +6,8 @@ CFLAGS += $(shell pkg-config glib-2.0 --cflags)
 
 LDFLAGS = $(shell pkg-config glib-2.0 --libs)
 
-OBJECTS = rominfo.o
+OBJECTS  = rominfo.o
+OBJECTS += gb.o
 ROMINFO_OBJECTS = rominfo_main.o
 
 %.o: %.c %.h
